@@ -1,103 +1,137 @@
 import React, { useState } from "react";
 import logo from "../../assets/img/hLogo.png";
-import "../NavBar/navbar.css";
 import { Link } from "react-router-dom";
 import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
-import AboutUs from "../AboutUs/AboutUs"
+import { useCart } from "../../contexts/CartContext";
+import { useAuth } from "../../contexts/AuthContext";
 
 export default function NavBar() {
   const [isOpen, setisOpen] = useState(false);
+  const { getCartItemCount } = useCart();
+  const { isAuthenticated, user, logout } = useAuth();
+  
   function handleClick() {
     setisOpen(!isOpen);
   }
+  
+  const cartItemCount = getCartItemCount();
   return (
     <div>
-      <header id="header" className="fixed-top d-flex align-items-cente">
-        <div className="container-fluid container-xl d-flex align-items-center justify-content-lg-between">
-          <Link to="/" className="logo me-auto me-lg-0">
-            <img src={logo} alt="" className="img-fluid" />
+      <header id="header" className="fixed top-[40px] left-0 right-0 z-50 bg-dark border-b border-primary/20">
+        <div className="container mx-auto px-4 lg:px-8 flex items-center justify-between h-14">
+          <Link to="/" className="flex items-center no-underline">
+            <img 
+              src={logo} 
+              alt="E-Cafe Logo" 
+              className="max-w-[120px] max-h-[45px] w-auto h-auto object-contain md:max-w-[100px] md:max-h-[40px] sm:max-w-[80px] sm:max-h-[35px]" 
+            />
           </Link>
-          <nav id="navbar" className="navbar order-last order-lg-0">
-            <ul>
-              <li>
-                <Link to="/" className="nav-link">
+          
+          <nav className="hidden lg:flex">
+            <ul className="flex items-center list-none m-0 p-0">
+              <li className="relative">
+                <Link to="/" className="flex items-center px-0 py-1.5 pl-6 text-white text-xs whitespace-nowrap transition-colors duration-300 hover:text-primary-light no-underline">
                   Home
                 </Link>
               </li>
-              <li>
-                <Link to='/Product' className="nav-link"  href="#about">
+              <li className="relative">
+                <Link to='/Product' className="flex items-center px-0 py-1.5 pl-6 text-white text-xs whitespace-nowrap transition-colors duration-300 hover:text-primary-light no-underline">
                   Menu
                 </Link>
               </li>
-              <li>
-                <Link to = "/AboutUs" className="nav-link scrollto" href="#menu">
+              <li className="relative">
+                <Link to="/AboutUs" className="flex items-center px-0 py-1.5 pl-6 text-white text-xs whitespace-nowrap transition-colors duration-300 hover:text-primary-light no-underline">
                   About
                 </Link>
               </li>
-              {/* <li>
-                <a className="nav-link scrollto" href="#contact">
-                  Contact
-                </a>
-              </li> */}
             </ul>
           </nav>
-          <Link
-            to="/Reservation"
-            className="book-a-table-btn scrollto d-none d-lg-flex"
-            style={{marginLeft:"150px"}}
+          
+          <div className="hidden lg:flex items-center gap-2.5">
+            <Link
+              to="/Reservation"
+              className="border-2 border-primary text-white rounded-full px-4 py-1.5 text-[10px] font-medium uppercase tracking-wider transition-all duration-300 hover:bg-primary hover:text-dark hover:border-primary-light hover:shadow-lg hover:shadow-primary/40 hover:scale-105 no-underline ml-6"
+            >
+              Book a table
+            </Link>
+            <Link
+              to="/Cart"
+              className="border-2 border-primary text-white rounded-full px-4 py-1.5 text-[10px] font-medium uppercase tracking-wider transition-all duration-300 hover:bg-primary hover:text-dark hover:border-primary-light hover:shadow-lg hover:shadow-primary/40 hover:scale-105 no-underline relative"
+            >
+              Cart {cartItemCount > 0 && (
+                <span className="absolute -top-1.5 -right-1.5 bg-primary text-white rounded-full w-4 h-4 flex items-center justify-center text-[10px]">
+                  {cartItemCount}
+                </span>
+              )}
+            </Link>
+            {isAuthenticated ? (
+              <>
+                <span className="border-2 border-primary text-white rounded-full px-4 py-1.5 text-[10px] font-medium uppercase tracking-wider transition-all duration-300 hover:bg-primary hover:text-dark hover:border-primary-light hover:shadow-lg hover:shadow-primary/40 hover:scale-105 cursor-pointer">
+                  {user?.name || 'User'}
+                </span>
+                <button
+                  onClick={logout}
+                  className="bg-transparent border-2 border-primary text-white rounded-full px-4 py-1.5 text-[10px] font-medium uppercase tracking-wider transition-all duration-300 hover:bg-primary hover:text-dark hover:border-primary-light hover:shadow-lg hover:shadow-primary/40 hover:scale-105"
+                >
+                  Logout
+                </button>
+              </>
+            ) : (
+              <>
+              <Link
+                to="/SignUp"
+                className="border-2 border-primary text-white rounded-full px-4 py-1.5 text-[10px] font-medium uppercase tracking-wider transition-all duration-300 hover:bg-primary hover:text-dark hover:border-primary-light hover:shadow-lg hover:shadow-primary/40 hover:scale-105 no-underline"
+              >
+                SignUp
+              </Link>
+              <Link
+                to="/LogIn"
+                className="border-2 border-primary text-white rounded-full px-4 py-1.5 text-[10px] font-medium uppercase tracking-wider transition-all duration-300 hover:bg-primary hover:text-dark hover:border-primary-light hover:shadow-lg hover:shadow-primary/40 hover:scale-105 no-underline"
+              >
+                Login
+              </Link>
+              </>
+            )}
+          </div>
+          
+          <div 
+            onClick={handleClick} 
+            className="text-white cursor-pointer lg:hidden"
           >
-            Book a table
-          </Link>
-          <Link
-            to="/SignUp"
-            className="book-a-table-btn scrollto d-none d-lg-flex"
-          >
-           SignUp
-          </Link>
-          <Link
-            to="/LogIn"
-            className="book-a-table-btn scrollto d-none d-lg-flex"
-          >
-           Login
-          </Link>
+            {isOpen ? <AiOutlineClose size={20} /> : <AiOutlineMenu size={20} />}
+          </div>
         </div>
-        <div onClick={handleClick} className="text-white mobile-nav-bar-button">
-          {isOpen ? <AiOutlineClose size={25} /> : <AiOutlineMenu size={25} />}
-        </div>
-        {isOpen ? (
-          <div>
-            <section className="mobile-nav-bar-code">
-              <nav>
-                <ul>
-                  <li>
-                    <Link to="/" className="nav-link">
+        
+        {isOpen && (
+          <div className="lg:hidden">
+            <section className="w-[250px] h-[400px] bg-dark/60 absolute top-[96px] right-0 text-white z-50">
+              <nav className="p-3">
+                <ul className="list-none p-0 m-0">
+                  <li className="py-2 border-b border-white">
+                    <Link to="/" className="text-white text-sm no-underline hover:text-primary transition-colors">
                       Home
                     </Link>
                   </li>
-                  <li>
-                    <a className="nav-link scrollto" href="#about">
+                  <li className="py-2 border-b border-white">
+                    <Link to="/Product" className="text-white text-sm no-underline hover:text-primary transition-colors">
                       Menu
-                    </a>
+                    </Link>
                   </li>
-                  <li>
-                    <a className="nav-link scrollto" href="#menu">
+                  <li className="py-2 border-b border-white">
+                    <Link to="/AboutUs" className="text-white text-sm no-underline hover:text-primary transition-colors">
                       About
-                    </a>
-                  </li>
-                  <li>
-                    <a className="nav-link scrollto" href="#contact">
-                      Contact
-                    </a>
+                    </Link>
                   </li>
                 </ul>
               </nav>
-              <Link to="/Reservation" className="book-a-table-btn">
+              <Link 
+                to="/Reservation" 
+                className="block mt-3 mx-3 border-2 border-primary text-white rounded-full px-4 py-1.5 text-[10px] font-medium uppercase tracking-wider transition-all duration-300 hover:bg-primary hover:text-dark hover:border-primary-light hover:shadow-lg hover:shadow-primary/40 hover:scale-105 text-center no-underline"
+              >
                 Book a table
               </Link>
             </section>
           </div>
-        ) : (
-          <div></div>
         )}
       </header>
     </div>

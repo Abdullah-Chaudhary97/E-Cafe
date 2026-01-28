@@ -1,12 +1,19 @@
 import './index.css';
 import React from 'react';
-import "bootstrap/dist/css/bootstrap.css";
+import { CartProvider } from './contexts/CartContext';
+import { AuthProvider } from './contexts/AuthContext';
+import { ToastProvider } from './components/common/Toast/Toast';
 import Routing from './components/routes/Routing';
+
 function App() {
   return (
-    <div>
-        <Routing/>
-    </div>
+    <AuthProvider>
+      <CartProvider>
+        <ToastProvider>
+          <Routing/>
+        </ToastProvider>
+      </CartProvider>
+    </AuthProvider>
   );
 }
 

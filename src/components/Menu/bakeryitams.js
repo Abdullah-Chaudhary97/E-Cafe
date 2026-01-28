@@ -1,37 +1,56 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import  '../../App.css';
-import { Link } from "react-router-dom";
+import { productAPI } from '../../api';
+import { useCart } from '../../contexts/CartContext';
+import { useToast } from '../common/Toast/Toast';
+import Loading from '../common/Loading/Loading';
+import MenuCategoryTemplate from './MenuCategoryTemplate';
 
 export default function Bakeryitams() {
-    const [valu, setValue] = useState([]);
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const { addToCart } = useCart();
+  const { showToast } = useToast();
 
-    useEffect(() => {
-      const fetchData = async () => {
-        const response = await axios.get('http://localhost:4000/user');
-        setValue(response.data.bakery);
-      };
-      fetchData();
-    }, []);
-  
-    return (
-      <div>
-      <p className='para'>Our Bakery Itams Menu</p>
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        const data = await productAPI.getProductsByCategory('bakery');
+        setProducts(data);
+      } catch (err) {
+        setError('Failed to load products');
+        console.error('Error fetching bakery products:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, []);
 
-      <div className="main_container">
-        {valu.map(item => (
-          <div className="product-card" key={item.id}>
-            <div className="product-image"><img src={item.image} alt={item.title} /></div>
-            <h2 className="product-title">{item.title}</h2>
-            <p className="product-price">{item.price}</p>
-            <p className="product-description">{item.description}</p>
-            <Link to = "/Cart" className="product-button">Add to Cart</Link>
-          </div>
-    ))}
-      </div>
-      </div>
-    );
+  const handleAddToCart = async (product) => {
+    try {
+      await addToCart({
+        ...product,
+        category: 'bakery',
+        title: product.productTitle || product.title,
+      });
+      showToast(`${product.productTitle || product.title} added to cart!`, 'success');
+    } catch (error) {
+      showToast('Failed to add item to cart', 'error');
+    }
+  };
+
+  if (loading) return <Loading message="Loading bakery menu..." />;
+  if (error) return <div className="text-center text-red-500 py-10">{error}</div>;
+
+  return (
+    <MenuCategoryTemplate
+      title="Bakery Items"
+      subtitle="Freshly baked goods made daily with premium ingredients"
+      products={products}
+      category="bakery"
+      onAddToCart={handleAddToCart}
+    />
+  );
 }
-
-
-

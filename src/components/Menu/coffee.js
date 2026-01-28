@@ -1,35 +1,56 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import  '../../App.css';
-import { Link } from "react-router-dom";
-
+import { productAPI } from '../../api';
+import { useCart } from '../../contexts/CartContext';
+import { useToast } from '../common/Toast/Toast';
+import Loading from '../common/Loading/Loading';
+import MenuCategoryTemplate from './MenuCategoryTemplate';
 
 export default function Coffee() {
-  const [valu, setValue] = useState([]);
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const { addToCart } = useCart();
+  const { showToast } = useToast();
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await axios.get('http://localhost:4000/user');
-      setValue(response.data.coffee);
+      try {
+        setLoading(true);
+        const data = await productAPI.getProductsByCategory('coffee');
+        setProducts(data);
+      } catch (err) {
+        setError('Failed to load products');
+        console.error('Error fetching coffee products:', err);
+      } finally {
+        setLoading(false);
+      }
     };
     fetchData();
   }, []);
 
-  return (
-    <div>
-    <p className='para'>Our Coffee Menu</p>
+  const handleAddToCart = async (product) => {
+    try {
+      await addToCart({
+        ...product,
+        category: 'coffee',
+        title: product.productTitle || product.title,
+      });
+      showToast(`${product.productTitle || product.title} added to cart!`, 'success');
+    } catch (error) {
+      showToast('Failed to add item to cart', 'error');
+    }
+  };
 
-    <div className="main_container">
-      {valu.map(item => (
-        <div className="product-card" key={item.id}>
-          <div className="product-image"><img src={item.image} alt={item.productTitle} /></div>
-          <h2 className="product-title">{item.productTitle}</h2>
-          <p className="product-price">{item.price}</p>
-          <p className="product-description">{item.description}</p>
-          <Link to = "/Cart" className="product-button">Add to Cart</Link>
-        </div>
-  ))}
-    </div>
-    </div>
+  if (loading) return <Loading message="Loading coffee menu..." />;
+  if (error) return <div className="text-center text-red-500 py-10">{error}</div>;
+
+  return (
+    <MenuCategoryTemplate
+      title="Coffee Menu"
+      subtitle="Discover our premium selection of handcrafted coffee beverages"
+      products={products}
+      category="coffee"
+      onAddToCart={handleAddToCart}
+    />
   );
 }

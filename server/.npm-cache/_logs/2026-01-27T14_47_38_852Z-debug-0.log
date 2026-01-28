@@ -1,0 +1,58 @@
+0 verbose cli C:\Program Files\nodejs\node.exe C:\Program Files\nodejs\node_modules\npm\bin\npm-cli.js
+1 info using npm@10.9.3
+2 info using node@v22.18.0
+3 silly config load:file:C:\Program Files\nodejs\node_modules\npm\npmrc
+4 silly config load:file:D:\RentBazar\E-Cafe\server\.npmrc
+5 silly config load:file:C:\Users\abdul\.npmrc
+6 silly config load:file:C:\Users\abdul\AppData\Roaming\npm\etc\npmrc
+7 verbose title npm install
+8 verbose argv "install" "--cache" ".npm-cache" "--prefer-offline" "false"
+9 verbose logfile logs-max:10 dir:D:\RentBazar\E-Cafe\server\.npm-cache\_logs\2026-01-27T14_47_38_852Z-
+10 verbose logfile D:\RentBazar\E-Cafe\server\.npm-cache\_logs\2026-01-27T14_47_38_852Z-debug-0.log
+11 silly logfile done cleaning log files
+12 http fetch GET https://registry.npmjs.org/npm attempt 1 failed with ECONNREFUSED
+13 silly packumentCache heap:4345298944 maxSize:1086324736 maxEntrySize:543162368
+14 silly idealTree buildDeps
+15 silly fetch manifest express@^4.18.2
+16 silly packumentCache full:https://registry.npmjs.org/express cache-miss
+17 silly fetch manifest mongoose@^7.5.0
+18 silly packumentCache full:https://registry.npmjs.org/mongoose cache-miss
+19 silly fetch manifest cors@^2.8.5
+20 silly packumentCache full:https://registry.npmjs.org/cors cache-miss
+21 silly fetch manifest dotenv@^16.3.1
+22 silly packumentCache full:https://registry.npmjs.org/dotenv cache-miss
+23 silly fetch manifest bcryptjs@^2.4.3
+24 silly packumentCache full:https://registry.npmjs.org/bcryptjs cache-miss
+25 silly fetch manifest jsonwebtoken@^9.0.2
+26 silly packumentCache full:https://registry.npmjs.org/jsonwebtoken cache-miss
+27 silly fetch manifest nodemon@^3.0.1
+28 silly packumentCache full:https://registry.npmjs.org/nodemon cache-miss
+29 silly placeDep ROOT bcryptjs@ OK for: ecafe-server@1.0.0 want: ^2.4.3
+30 silly placeDep ROOT cors@ OK for: ecafe-server@1.0.0 want: ^2.8.5
+31 silly placeDep ROOT dotenv@ OK for: ecafe-server@1.0.0 want: ^16.3.1
+32 silly placeDep ROOT express@ OK for: ecafe-server@1.0.0 want: ^4.18.2
+33 silly placeDep ROOT jsonwebtoken@ OK for: ecafe-server@1.0.0 want: ^9.0.2
+34 silly placeDep ROOT mongoose@ OK for: ecafe-server@1.0.0 want: ^7.5.0
+35 silly placeDep ROOT nodemon@ OK for: ecafe-server@1.0.0 want: ^3.0.1
+36 verbose stack Error: request to https://registry.npmjs.org/bcryptjs failed: cache mode is 'only-if-cached' but no cached response is available.
+36 verbose stack     at cacheFetch (C:\Program Files\nodejs\node_modules\npm\node_modules\make-fetch-happen\lib\cache\index.js:12:13)
+36 verbose stack     at async fetch (C:\Program Files\nodejs\node_modules\npm\node_modules\make-fetch-happen\lib\fetch.js:98:7)
+36 verbose stack     at async RegistryFetcher.packument (C:\Program Files\nodejs\node_modules\npm\node_modules\pacote\lib\registry.js:90:19)
+36 verbose stack     at async RegistryFetcher.manifest (C:\Program Files\nodejs\node_modules\npm\node_modules\pacote\lib\registry.js:128:23)
+36 verbose stack     at async #fetchManifest (C:\Program Files\nodejs\node_modules\npm\node_modules\@npmcli\arborist\lib\arborist\build-ideal-tree.js:1202:20)
+36 verbose stack     at async #nodeFromEdge (C:\Program Files\nodejs\node_modules\npm\node_modules\@npmcli\arborist\lib\arborist\build-ideal-tree.js:1040:19)
+36 verbose stack     at async #buildDepStep (C:\Program Files\nodejs\node_modules\npm\node_modules\@npmcli\arborist\lib\arborist\build-ideal-tree.js:904:11)
+36 verbose stack     at async Arborist.buildIdealTree (C:\Program Files\nodejs\node_modules\npm\node_modules\@npmcli\arborist\lib\arborist\build-ideal-tree.js:181:7)
+36 verbose stack     at async Promise.all (index 1)
+36 verbose stack     at async Arborist.reify (C:\Program Files\nodejs\node_modules\npm\node_modules\@npmcli\arborist\lib\arborist\reify.js:131:5)
+37 error code ENOTCACHED
+38 error request to https://registry.npmjs.org/bcryptjs failed: cache mode is 'only-if-cached' but no cached response is available.
+39 silly unfinished npm timer reify 1769525259449
+40 silly unfinished npm timer reify:loadTrees 1769525259450
+41 verbose cwd D:\RentBazar\E-Cafe\server
+42 verbose os Windows_NT 10.0.26200
+43 verbose node v22.18.0
+44 verbose npm  v10.9.3
+45 verbose exit 1
+46 verbose code 1
+47 error A complete log of this run can be found in: D:\RentBazar\E-Cafe\server\.npm-cache\_logs\2026-01-27T14_47_38_852Z-debug-0.log

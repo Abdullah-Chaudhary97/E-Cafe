@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import img from "./assets/blogimage.png";
 import axios from "axios";
-import "../../../node_modules/bootstrap/dist/css/bootstrap.min.css";
 
 import { Formik, Field, Form } from "formik";
 const UsersignUp = () => {

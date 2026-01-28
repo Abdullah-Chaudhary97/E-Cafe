@@ -1,5 +1,6 @@
-import React from 'react'
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import React, { useEffect } from 'react'
+import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom'
+import { AnimatePresence, motion } from 'framer-motion'
 import NavBar from '../NavBar/NavBar'
 import Header from '../Header/Header'
 import Home from "../Home/index"
@@ -7,6 +8,7 @@ import Cart from "../CheckOut/Cart"
 import Reservation from '../Reservation/Reservation';
 import AboutUs from "../AboutUs/AboutUs"
 import Product from '../Menu/Product';
+import ProductDetail from '../Menu/ProductDetail';
 import Colddrink from '../Menu/colddrink';
 import Desserts from '../Menu/Desserts';
 import Sandwich from '../Menu/sandwich';
@@ -16,53 +18,154 @@ import Bakeryitams from '../Menu/bakeryitams';
 import SignUp from "../login/signUp"
 import LogIn from "../login/logIn"
 import Footer from '../Footer/Footer'
-// import { BrowserRouter as Router, Routes, Route  } from 'react-router-dom';
-// import SideBar from '../../Admin/React-Dashboard-main/src/components/Sidebar';
-// import sidebar_menu from './constants/sidebar-menu';
-// import './App.css';
-// import Orders from './pages/Orders';
-// import logIn from "../login/logIn"
+
+// ScrollToTop component to scroll to top on route change
+function ScrollToTop() {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    // Scroll to top instantly when route changes
+    // Use both window.scrollTo and document.documentElement.scrollTop for maximum compatibility
+    window.scrollTo(0, 0);
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0; // For older browsers
+  }, [pathname]);
+
+  return null;
+}
+
+const pageVariants = {
+  initial: {
+    opacity: 0,
+    y: 20,
+  },
+  animate: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.4,
+      ease: "easeOut",
+    },
+  },
+  exit: {
+    opacity: 0,
+    y: -20,
+    transition: {
+      duration: 0.3,
+    },
+  },
+};
+
+function AnimatedRoutes() {
+  const location = useLocation();
+
+  return (
+    <AnimatePresence mode="wait">
+      <Routes location={location} key={location.pathname}>
+        <Route path={'/'} element={
+          <motion.div
+            variants={pageVariants}
+            initial="initial"
+            animate="animate"
+            exit="exit"
+          >
+            <Home />
+          </motion.div>
+        } />
+        <Route path={'/Reservation'} element={
+          <motion.div
+            variants={pageVariants}
+            initial="initial"
+            animate="animate"
+            exit="exit"
+          >
+            <Reservation />
+          </motion.div>
+        }/>
+        <Route path={'/Cart'} element={
+          <motion.div
+            variants={pageVariants}
+            initial="initial"
+            animate="animate"
+            exit="exit"
+          >
+            <Cart />
+          </motion.div>
+        }/>
+        <Route path={'/AboutUs'} element={
+          <motion.div
+            variants={pageVariants}
+            initial="initial"
+            animate="animate"
+            exit="exit"
+          >
+            <AboutUs />
+          </motion.div>
+        }/>
+        <Route path='/SignUp' element={
+          <motion.div
+            variants={pageVariants}
+            initial="initial"
+            animate="animate"
+            exit="exit"
+          >
+            <SignUp />
+          </motion.div>
+        } />
+        <Route path='/LogIn' element={
+          <motion.div
+            variants={pageVariants}
+            initial="initial"
+            animate="animate"
+            exit="exit"
+          >
+            <LogIn />
+          </motion.div>
+        } />
+        <Route path='/Product/:id' element={
+          <motion.div
+            variants={pageVariants}
+            initial="initial"
+            animate="animate"
+            exit="exit"
+          >
+            <ProductDetail />
+          </motion.div>
+        } />
+        <Route path='/Product' element={
+          <motion.div
+            variants={pageVariants}
+            initial="initial"
+            animate="animate"
+            exit="exit"
+          >
+            <Product />
+          </motion.div>
+        }>
+          <Route index element={<Coffee />}/>
+          <Route path='Coffee' element={<Coffee />} />
+          <Route path='Tea' element={<Tea />} />
+          <Route path='BakeryItams' element={<Bakeryitams />} />
+          <Route path='ColdBeverages' element={<Colddrink />} />
+          <Route path='Sandwich' element={<Sandwich />} />
+          <Route path='Desserts' element={<Desserts />} />
+        </Route>
+      </Routes>
+    </AnimatePresence>
+  );
+}
+
 export default function Routing() {
   return (
     <div>
       <BrowserRouter>
-      <div>
-      <Header/>
-      <NavBar/>
-
-        <Routes>
-            <Route exact path={'/'} Component = {Home} />
-            <Route exact path={'/Reservation'} Component={Reservation}/>
-            <Route exact path={'/Cart'} Component={Cart}/>
-            <Route exact path={'/AboutUs'} Component={AboutUs}/>
-            <Route exact path='/SignUp' Component = {SignUp} />
-            <Route exact path='/logIn' Component = {LogIn} />
-            <Route exact path='/Reservation' Component={Reservation}/>
-            <Route path='/Product' Component={Product}>
-            <Route index Component={Coffee}/>
-            <Route path='Coffee' Component={Coffee} />
-            <Route path='Tea' Component={Tea} />
-            <Route path='BakeryItams' Component={Bakeryitams} />
-            <Route path='ColdBeverages' Component={Colddrink} />
-            <Route path='Sandwich' Component={Sandwich} />
-            <Route path='Desserts' Component={Desserts} />
-          </Route>
-        </Routes>
-       < Footer />
+        <ScrollToTop />
+        <div>
+          <Header/>
+          <NavBar/>
+          <AnimatedRoutes />
+          <Footer />
         </div>
-        {/* <div className='dashboard-container'>
-        <SideBar menu={sidebar_menu} />
-          
-          <div className='dashboard-body'>
-              <Routes> */}
-                  {/* <Route path="*" element={<div></div>} /> */}
-                  {/* <Route exact path="/login" element={<login/>} />
-                  <Route exact path="/orders" element={< Orders/>} />
-                  <Route exact path="/locations" element={<div></div>} />
-                  <Route exact path="/profile" element={<div></div>} />
-              </Routes>
-          </div>
-      </div> */}
       </BrowserRouter>
     </div>
   )
