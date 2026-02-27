@@ -1,0 +1,11 @@
+# Netlify config for E-Cafe frontend (Create React App)
+
+[build]
+  command = "npm run build"
+  publish = "build"
+
+# SPA fallback: serve index.html for all routes (required for React Router)
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
