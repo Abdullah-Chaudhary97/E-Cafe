@@ -1,19 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import img from "./assets/blogimage.png";
-import axios from "axios";
-
 import { Formik, Field, Form } from "formik";
+
 const UsersignUp = () => {
-  const handleSubmit = (values) => {
-    axios
-      .post("mongodb://localhost:27017/Users", values)
-      .catch((error) => console.log("error occurring", error));
-  };
   return (
     <div className="container">
       <div className="row" style={{marginTop:"150px"}}>
         <div className="col-md-8 col-sm-12" >
-          <img src={img} style={{marginTop:"80px" ,marginLeft:"80px",width:"500px" , height:"400px"}}/>
+          <img src={img} alt="Sign up" style={{marginTop:"80px" ,marginLeft:"80px",width:"500px" , height:"400px"}}/>
         </div>
         <div className="col-md-4 col-sm-12 Auth-form">
           <h2 className="Auth-form-title">SignUp</h2>

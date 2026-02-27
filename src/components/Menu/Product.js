@@ -3,18 +3,18 @@ import { Link, Outlet, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import Breadcrumb from '../common/Breadcrumb/Breadcrumb';
 
+const categories = [
+  { name: 'Coffee', path: 'Coffee', label: 'Coffee' },
+  { name: 'Tea', path: 'Tea', label: 'Tea' },
+  { name: 'Bakery', path: 'BakeryItams', label: 'Bakery Items' },
+  { name: 'Beverages', path: 'ColdBeverages', label: 'Cold Beverages' },
+  { name: 'Sandwich', path: 'Sandwich', label: 'Sandwiches & Burgers' },
+  { name: 'Desserts', path: 'Desserts', label: 'Desserts' },
+];
+
 export default function Product() {
   const location = useLocation();
   const [activeCategory, setActiveCategory] = useState('Coffee');
-
-  const categories = [
-    { name: 'Coffee', path: 'Coffee', label: 'Coffee' },
-    { name: 'Tea', path: 'Tea', label: 'Tea' },
-    { name: 'Bakery', path: 'BakeryItams', label: 'Bakery Items' },
-    { name: 'Beverages', path: 'ColdBeverages', label: 'Cold Beverages' },
-    { name: 'Sandwich', path: 'Sandwich', label: 'Sandwiches & Burgers' },
-    { name: 'Desserts', path: 'Desserts', label: 'Desserts' },
-  ];
 
   React.useEffect(() => {
     const path = location.pathname;

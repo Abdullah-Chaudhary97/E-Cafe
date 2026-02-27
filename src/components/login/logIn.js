@@ -6,7 +6,7 @@ const LogIn = () => {
     <div className="container">
       <div className="row">
         <div className="col-sm-12 col-md-8 col-lg-6" style={{marginTop:"150px", height:"300px"}}>
-          <img src={img} />
+          <img src={img} alt="E-Cafe" />
         </div>
         <div className="col-sm-12 col-md-8 col-lg-6 Auth-form-container">
           <form className="Auth-form">
@@ -34,7 +34,7 @@ const LogIn = () => {
                 </button>
               </div>
               <p className="forgot-password text-right mt-2">
-                Forgot <a href="#">password?</a>
+                Forgot <button type="button" className="btn btn-link p-0 align-baseline">password?</button>
               </p>
             </div>
           </form>
